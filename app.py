@@ -74,7 +74,7 @@ def train_models(df_processed):
     # Stratified Split per Docs
     X_train, X_test, y_train, y_test = train_test_split(X_scaled_df, y, test_size=0.2, random_state=42, stratify=y)
     
-    lr_model = LogisticRegression(max_iter=1000, random_state=42, multi_class='multinomial')
+    lr_model = LogisticRegression(max_iter=1000, random_state=42)
     lr_model.fit(X_train, y_train)
     
     rf_model = RandomForestClassifier(n_estimators=100, random_state=42, n_jobs=-1)
@@ -166,7 +166,9 @@ else:
             st.metric(label="Testing Accuracy", value=f"{acc*100:.2f}%")
         with col2:
             cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-            cv_scores = cross_val_score(model, X_scaled_df, y, cv=cv)
+            # Apply scaling to the full dataset for Cross Validation
+            X_scaled_cv = pd.DataFrame(scaler.transform(X), columns=X.columns)
+            cv_scores = cross_val_score(model, X_scaled_cv, y, cv=cv)
             st.metric(label="5-Fold CV Mean Accuracy", value=f"{cv_scores.mean()*100:.2f}%")
             
         st.markdown("---")
