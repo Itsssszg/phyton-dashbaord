@@ -11,6 +11,45 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 
 st.set_page_config(page_title="Student Performance Data Mining Dashboard", layout="wide", page_icon="🎓")
 
+# --- UI / UX Customization ---
+st.markdown("""
+<style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+    [data-testid="stMetricValue"] {
+        font-size: 2.2rem;
+        color: #4F8BF9;
+        font-weight: bold;
+    }
+    [data-testid="stSidebar"] {
+        background-color: #F8F9FA;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 20px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        height: 50px;
+        white-space: pre-wrap;
+        background-color: #f0f2f6;
+        border-radius: 4px 4px 0px 0px;
+        gap: 1px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .stTabs [aria-selected="true"] {
+        background-color: #ffffff;
+        border-bottom: 3px solid #4F8BF9;
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Set Global Visualization Styles
+sns.set_theme(style="whitegrid", palette="muted", context="notebook")
 def create_dummy_data():
     """Generates dummy dataset mimicking the docs exactly to ensure 1000 records."""
     np.random.seed(42)
@@ -204,7 +243,7 @@ else:
         st.write("Dynamic prediction targeting Student Performance levels 0, 1, or 2.")
         
         with st.form("prediction_form", clear_on_submit=False):
-            st.subheader("Input Features")
+            st.info("💡 Adjust the simulated metrics below to see how they impact the student's performance classification in real-time.")
             col1, col2 = st.columns(2)
             inputs = {}
             for i, col in enumerate(X.columns):
